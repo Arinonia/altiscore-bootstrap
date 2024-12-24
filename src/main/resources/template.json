@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "mainClass": "fr.arinonia.launcher.Main",
+  "mainJar": {
+    "name": "launcher.jar",
+    "url": "https://launcher.altiscore.fr/bootstrap/launcher.jar",
+    "sha1": "4507ca45a50d7e10ecf508dbc8369cdf54e28378",
+    "size": 556965,
+    "path": "launcher/bin/"
+  },
+  "dependencies": [
+    {
+      "type": "maven",
+      "groupId": "com.google.code.gson",
+      "artifactId": "gson",
+      "version": "2.11.0",
+      "sha1": "undefined",
+      "size": -1,
+      "path": "libraries",
+      "repository": "https://repo1.maven.org/maven2" // optionnel, utilise Maven Central par défaut
+    },
+    {
+      "type": "direct",
+      "name": "launcher.jar",
+      "url": "https://launcher.altiscore.fr/bootstrap/launcher.jar",
+      "sha1": "4507ca45a50d7e10ecf508dbc8369cdf54e28378",
+      "size": 556965,
+      "path": "launcher/libs"
+    }
+  ]
+}
