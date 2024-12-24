@@ -2,10 +2,14 @@ package fr.arinonia.bootstrap.file;
 
 import fr.arinonia.bootstrap.config.BootstrapConfig;
 import fr.arinonia.bootstrap.utils.OSDetector;
+import fr.flowarg.azuljavadownloader.AzulJavaOS;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.nio.file.attribute.PosixFilePermission;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class FileManager {
@@ -69,6 +73,8 @@ public class FileManager {
                 });
             }
 
+            setExecutablePermissions();
+
             try (final Stream<Path> pathsToDelete = Files.walk(extractedDir)
                     .sorted(Comparator.reverseOrder())) {
                 for (final Path path : (Iterable<Path>) pathsToDelete::iterator) {
@@ -82,6 +88,42 @@ public class FileManager {
                 }
             }
         }
+    }
+
+    private void setExecutablePermissions() {
+        if (!OSDetector.isUnixSystem()) {
+            System.out.println("Skipping setting executable permissions for non-Linux platforms");
+            return;
+        }
+        System.out.println("Setting executable permissions for runtime binaries...");
+        final String[] executableFiles = {
+                "bin/java",
+                "bin/keytool",
+                "bin/jpackage",
+                "lib/jspawnhelper"
+        };
+
+        final Set<PosixFilePermission> permissions = new HashSet<>();
+        permissions.add(PosixFilePermission.OWNER_READ);
+        permissions.add(PosixFilePermission.OWNER_WRITE);
+        permissions.add(PosixFilePermission.OWNER_EXECUTE);
+        permissions.add(PosixFilePermission.GROUP_READ);
+        permissions.add(PosixFilePermission.GROUP_EXECUTE);
+        permissions.add(PosixFilePermission.OTHERS_READ);
+        permissions.add(PosixFilePermission.OTHERS_EXECUTE);
+
+        for (final String execFile : executableFiles) {
+            final Path filePath = this.runtimePath.resolve(execFile);
+            if (Files.exists(filePath)) {
+                try {
+                    Files.setPosixFilePermissions(filePath, permissions);
+                    System.out.println("Set executable permissions for: " + filePath);
+                } catch (final IOException e) {
+                    System.err.println("Warning: Could not set permissions for " + filePath + ": " + e.getMessage());
+                }
+            }
+        }
+
     }
 
     public Path getRootPath() {
