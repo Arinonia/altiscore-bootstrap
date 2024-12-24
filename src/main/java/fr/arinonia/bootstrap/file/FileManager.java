@@ -2,7 +2,6 @@ package fr.arinonia.bootstrap.file;
 
 import fr.arinonia.bootstrap.config.BootstrapConfig;
 import fr.arinonia.bootstrap.utils.OSDetector;
-import fr.flowarg.azuljavadownloader.AzulJavaOS;
 
 import java.io.IOException;
 import java.nio.file.*;

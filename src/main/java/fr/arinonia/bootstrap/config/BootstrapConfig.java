@@ -12,7 +12,7 @@ public class BootstrapConfig {
     // Application
     private final String appName = "AltisCore Bootstrap";
     private final String appVersion = "1.0.1";
-    private final String discordUrl = "https://discord.gg/your-discord";
+    private final String discordUrl = "https://discord.gg/Xut47pGAXC";
 
     // Runtime
     private final String requiredJavaVersion = "21";
