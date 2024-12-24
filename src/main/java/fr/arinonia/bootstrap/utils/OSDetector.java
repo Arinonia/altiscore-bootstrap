@@ -62,4 +62,13 @@ public class OSDetector {
             return false;
         }
     }
+
+    /**
+     * Check if the current system is a Unix system
+     * @return true if the current system is a Unix system
+     */
+    public static boolean isUnixSystem() {
+        final String os = System.getProperty("os.name").toLowerCase();
+        return os.contains("nix") || os.contains("nux") || os.contains("aix");
+    }
 }
