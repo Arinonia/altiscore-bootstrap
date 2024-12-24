@@ -11,7 +11,7 @@ public class ApplicationService {
     private final LauncherService launcherService;
     private final UIService uiService;
 
-    public ApplicationService(FileManager fileManager) {
+    public ApplicationService(final FileManager fileManager) {
         this.runtimeService = new RuntimeService(fileManager, RuntimeDetector.detectRuntime());
         this.launcherService = new LauncherService(fileManager);
         this.uiService = new UIService();
