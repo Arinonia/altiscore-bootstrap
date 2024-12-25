@@ -1,5 +1,6 @@
 package fr.arinonia.bootstrap.launcher;
 
+import fr.arinonia.bootstrap.logger.Logger;
 import fr.arinonia.bootstrap.updater.LauncherUpdater;
 
 import java.io.File;
@@ -37,7 +38,7 @@ public class LauncherStarter {
         processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
 
-        System.out.println("Starting launcher with command: " + String.join(" ", command));
+        Logger.info("Starting launcher with command: " + String.join(" ", command));
 
         try {
             final Process process = processBuilder.start();

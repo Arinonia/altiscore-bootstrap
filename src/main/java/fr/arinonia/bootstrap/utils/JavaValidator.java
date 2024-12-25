@@ -1,5 +1,7 @@
 package fr.arinonia.bootstrap.utils;
 
+import fr.arinonia.bootstrap.logger.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -97,7 +99,7 @@ public class JavaValidator {
             }
 
             final String version = extractJavaVersion(process);
-            System.out.println("Java version extracted: " + version);
+            Logger.info("Java version extracted: " + version);
             if (version == null) {
                 return new ValidationResult(false, null,
                         "Impossible de déterminer la version Java", false);

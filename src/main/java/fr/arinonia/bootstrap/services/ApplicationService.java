@@ -2,6 +2,7 @@ package fr.arinonia.bootstrap.services;
 
 import fr.arinonia.bootstrap.config.BootstrapConfig;
 import fr.arinonia.bootstrap.file.FileManager;
+import fr.arinonia.bootstrap.logger.Logger;
 import fr.arinonia.bootstrap.utils.RuntimeDetector;
 
 import java.io.IOException;
@@ -18,14 +19,14 @@ public class ApplicationService {
     }
 
     public void start() {
-        System.out.printf("Starting %s version %s%n",
+        Logger.info(String.format("Starting %s version %s",
                 BootstrapConfig.getInstance().getAppName(),
-                BootstrapConfig.getInstance().getAppVersion());
+                BootstrapConfig.getInstance().getAppVersion()));
 
         if (this.runtimeService.needsRuntimeDownload()) {
             handleRuntimeSetup();
         } else {
-            System.out.println("Runtime requirements met, proceeding with launcher update");
+            Logger.info("Runtime requirements met, proceeding with launcher update");
             this.uiService.display();
             handleLauncherUpdate();
         }
@@ -38,7 +39,7 @@ public class ApplicationService {
         this.runtimeService.downloadRuntime(
                 callback::onProgress
         ).thenAccept(javaPath -> {
-            System.out.println("Runtime setup completed at: " + javaPath);
+            Logger.info("Runtime setup completed at: " + javaPath);
             handleLauncherUpdate();
         }).exceptionally(throwable -> {
             callback.onError(
@@ -81,6 +82,7 @@ public class ApplicationService {
 
     public void exit() {
         this.uiService.dispose();
+        Logger.close();
         System.exit(0);
     }
 

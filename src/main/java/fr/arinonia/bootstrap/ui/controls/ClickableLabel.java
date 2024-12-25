@@ -14,7 +14,7 @@ public class ClickableLabel extends JLabel {
     private final Color normalColor;
     private final Color hoverColor;
 
-    public ClickableLabel(String text, Font font, float fontSize, Color normalColor, Color hoverColor, String tooltip) {
+    public ClickableLabel(final String text, final Font font, final float fontSize, final Color normalColor, final Color hoverColor, final String tooltip) {
         super(text);
         this.normalColor = normalColor;
         this.hoverColor = hoverColor;

@@ -1,6 +1,7 @@
 package fr.arinonia.bootstrap.file;
 
 import fr.arinonia.bootstrap.config.BootstrapConfig;
+import fr.arinonia.bootstrap.logger.Logger;
 import fr.arinonia.bootstrap.utils.OSDetector;
 
 import java.io.IOException;
@@ -19,7 +20,6 @@ public class FileManager {
     public FileManager() {
         this.rootPath = this.initRootPath();
         this.runtimePath = this.rootPath.resolve("runtime");
-        System.out.println(this.runtimePath);
     }
 
     public void createDirectories() {
@@ -57,7 +57,7 @@ public class FileManager {
                     .findFirst()
                     .orElseThrow(() -> new IOException("Extracted JDK directory not found"));
 
-            System.out.println("Moving content from: " + extractedDir);
+            Logger.info("Moving content from: " + extractedDir);
 
             try (final Stream<Path> files = Files.walk(extractedDir)) {
                 files.filter(Files::isRegularFile).forEach(file -> {
@@ -67,7 +67,7 @@ public class FileManager {
                         Files.createDirectories(targetPath.getParent());
                         Files.move(file, targetPath, StandardCopyOption.REPLACE_EXISTING);
                     } catch (final IOException e) {
-                        e.printStackTrace();
+                        throw new RuntimeException("Failed to move extracted content", e);
                     }
                 });
             }
@@ -91,10 +91,10 @@ public class FileManager {
 
     private void setExecutablePermissions() {
         if (!OSDetector.isUnixSystem()) {
-            System.out.println("Skipping setting executable permissions for non-Linux platforms");
+            Logger.info("Skipping setting executable permissions for non-Linux platforms");
             return;
         }
-        System.out.println("Setting executable permissions for runtime binaries...");
+        Logger.info("Setting executable permissions for runtime binaries...");
         final String[] executableFiles = {
                 "bin/java",
                 "bin/keytool",
@@ -116,9 +116,9 @@ public class FileManager {
             if (Files.exists(filePath)) {
                 try {
                     Files.setPosixFilePermissions(filePath, permissions);
-                    System.out.println("Set executable permissions for: " + filePath);
+                    Logger.info("Set executable permissions for: " + filePath);
                 } catch (final IOException e) {
-                    System.err.println("Warning: Could not set permissions for " + filePath + ": " + e.getMessage());
+                    Logger.error("Warning: Could not set permissions for " + filePath + ": ", e);
                 }
             }
         }
