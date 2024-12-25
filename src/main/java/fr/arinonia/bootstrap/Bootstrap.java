@@ -22,10 +22,6 @@ public class Bootstrap {
         this.applicationService.start();
     }
 
-    public void exit() {
-        System.exit(0);
-    }
-
     public static Bootstrap getInstance() {
         return instance;
     }

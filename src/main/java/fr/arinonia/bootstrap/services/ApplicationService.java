@@ -26,14 +26,14 @@ public class ApplicationService {
             handleRuntimeSetup();
         } else {
             System.out.println("Runtime requirements met, proceeding with launcher update");
-            uiService.display();
+            this.uiService.display();
             handleLauncherUpdate();
         }
     }
 
     private void handleRuntimeSetup() {
         this.uiService.display();
-        UIService.ProgressCallback callback = uiService.createProgressCallback("Installation de Java");
+        UIService.ProgressCallback callback = this.uiService.createProgressCallback("Installation de Java");
 
         this.runtimeService.downloadRuntime(
                 callback::onProgress
@@ -51,7 +51,7 @@ public class ApplicationService {
     }
 
     private void handleLauncherUpdate() {
-        final UIService.ProgressCallback callback = uiService.createProgressCallback("Mise à jour du launcher");
+        final UIService.ProgressCallback callback = this.uiService.createProgressCallback("Mise à jour du launcher");
 
         this.launcherService.updateLauncher(
                 progress -> callback.onProgress(progress, "")

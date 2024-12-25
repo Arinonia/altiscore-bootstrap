@@ -32,7 +32,7 @@ public class FileManager {
                 Files.createDirectories(this.runtimePath);
             }
         } catch (final Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to create directories", e);
         }
     }
 
@@ -55,7 +55,7 @@ public class FileManager {
                     .filter(p -> p.getFileName().toString().contains("jdk") ||
                             p.getFileName().toString().contains("zulu"))
                     .findFirst()
-                    .orElseThrow(() -> new IOException("Dossier JDK extrait non trouvé"));
+                    .orElseThrow(() -> new IOException("Extracted JDK directory not found"));
 
             System.out.println("Moving content from: " + extractedDir);
 
@@ -66,7 +66,7 @@ public class FileManager {
                         final Path targetPath = this.runtimePath.resolve(relativePath);
                         Files.createDirectories(targetPath.getParent());
                         Files.move(file, targetPath, StandardCopyOption.REPLACE_EXISTING);
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                         e.printStackTrace();
                     }
                 });

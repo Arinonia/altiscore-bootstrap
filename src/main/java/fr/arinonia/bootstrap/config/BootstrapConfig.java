@@ -4,6 +4,8 @@ import java.awt.*;
 
 /**
  * I'm trying a new way to organize my constants
+ *
+ * sometimes later now I think that was a bad idea
  */
 public class BootstrapConfig {
 

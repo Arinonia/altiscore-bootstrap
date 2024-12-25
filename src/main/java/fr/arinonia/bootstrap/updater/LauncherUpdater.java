@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class LauncherUpdater {
+    //why the fuck it's still here?
     private static final String MAVEN_CENTRAL = "https://repo1.maven.org/maven2";
 
     private final String manifestUrl;
@@ -93,11 +94,11 @@ public class LauncherUpdater {
                 : this.rootDir.resolve(this.manifest.getMainJar().getName());
     }
 
-    private Path getDependencyPath(Dependency dep) {
-        String basePath = dep.getPath() != null ? dep.getPath() : "libraries";
+    private Path getDependencyPath(final Dependency dep) {
+       final  String basePath = dep.getPath() != null ? dep.getPath() : "libraries";
 
         if (dep.getType() == Dependency.DependencyType.MAVEN) {
-            return rootDir.resolve(basePath).resolve(
+            return this.rootDir.resolve(basePath).resolve(
                     String.format("%s/%s/%s/%s-%s.jar",
                             dep.getGroupId().replace('.', '/'),
                             dep.getArtifactId(),
@@ -107,13 +108,13 @@ public class LauncherUpdater {
                     )
             );
         } else {
-            return rootDir.resolve(basePath).resolve(dep.getName());
+            return this.rootDir.resolve(basePath).resolve(dep.getName());
         }
     }
 
-    private String getDependencyUrl(Dependency dep) {
+    private String getDependencyUrl(final Dependency dep) {
         if (dep.getType() == Dependency.DependencyType.MAVEN) {
-            String repo = dep.getRepository() != null ? dep.getRepository() : MAVEN_CENTRAL;
+            final String repo = dep.getRepository() != null ? dep.getRepository() : MAVEN_CENTRAL;
             return String.format("%s/%s/%s/%s/%s-%s.jar",
                     repo,
                     dep.getGroupId().replace('.', '/'),
@@ -128,12 +129,12 @@ public class LauncherUpdater {
     }
 
     public List<String> getClasspath() {
-        List<String> classpath = new ArrayList<>();
+        final List<String> classpath = new ArrayList<>();
 
         classpath.add(getMainJarPath().toAbsolutePath().toString());
 
-        if (manifest.getDependencies() != null) {
-            for (Dependency dep : manifest.getDependencies()) {
+        if (this.manifest.getDependencies() != null) {
+            for (final Dependency dep : this.manifest.getDependencies()) {
                 classpath.add(getDependencyPath(dep).toAbsolutePath().toString());
             }
         }
