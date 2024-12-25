@@ -1,6 +1,7 @@
 package fr.arinonia.bootstrap.utils;
 
 import fr.arinonia.bootstrap.Bootstrap;
+import fr.arinonia.bootstrap.logger.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,20 +26,20 @@ public class UiUtil {
     public static ImageIcon getImageIcon(final String path) {
         final URL url = Bootstrap.class.getResource(path);
         if (url == null) {
-            System.err.println("Unable to load resource " + path);
+            Logger.error("Unable to load resource " + path);
             return null;
         }
         return new ImageIcon(url);
     }
 
-    public static ImageIcon getImageIconScaled(final String path, int width, int height) {
+    public static ImageIcon getImageIconScaled(final String path, final int width, final int height) {
         final URL url = Bootstrap.class.getResource(path);
         if (url == null) {
-            System.err.println("Unable to load resource " + path);
+            Logger.error("Unable to load resource " + path);
             return null;
         }
-        ImageIcon icon = new ImageIcon(url);
-        Image scaled = icon.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT);
+        final ImageIcon icon = new ImageIcon(url);
+        final Image scaled = icon.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT);
         return new ImageIcon(scaled);
     }
 }

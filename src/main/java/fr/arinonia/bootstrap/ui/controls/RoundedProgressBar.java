@@ -26,36 +26,36 @@ public class RoundedProgressBar extends JComponent {
         this.foreground = new Color(100, 100, 100);
         this.borderColor = new Color(60, 60, 60);
 
-        animationTimer = new Timer(50, e -> {
-            animationValue += 0.1f;
-            if (animationValue > 2 * Math.PI) {
-                animationValue = 0;
+        this.animationTimer = new Timer(50, e -> {
+            this.animationValue += 0.1f;
+            if (this.animationValue > 2 * Math.PI) {
+                this.animationValue = 0;
             }
             repaint();
         });
 
-        progressTimer = new Timer(16, e -> { // ~60 FPS
-            if (Math.abs(currentValue - targetValue) > 0.01) {
-                currentValue += (targetValue - currentValue) * 0.1;
+        this.progressTimer = new Timer(16, e -> { // ~60 FPS
+            if (Math.abs(this.currentValue - this.targetValue) > 0.01) {
+                this.currentValue += (this.targetValue - this.currentValue) * 0.1;
                 repaint();
             } else {
-                currentValue = targetValue;
-                progressTimer.stop();
+                this.currentValue = this.targetValue;
+                this.progressTimer.stop();
             }
         });
 
-        animationTimer.start();
+        this.animationTimer.start();
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
+    protected void paintComponent(final Graphics g) {
+        final Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
-        int width = getWidth();
-        int height = getHeight();
-        int progress = Util.crossMult((int) this.currentValue, this.maximum, width);
+        final int width = getWidth();
+        final int height = getHeight();
+        final int progress = Util.crossMult((int) this.currentValue, this.maximum, width);
 
         if (this.showGlowEffect) {
             drawShadow(g2, width, height);
@@ -86,9 +86,9 @@ public class RoundedProgressBar extends JComponent {
         g2.dispose();
     }
 
-    private void drawShadow(Graphics2D g2, int width, int height) {
+    private void drawShadow(final Graphics2D g2, final int width, final int height) {
         for (int i = 0; i < 4; i++) {
-            float alpha = 0.1f - (i * 0.02f);
+            final float alpha = 0.1f - (i * 0.02f);
             g2.setColor(new Color(0f, 0f, 0f, alpha));
             g2.fill(new RoundRectangle2D.Float(
                     -i, -i,
@@ -100,9 +100,9 @@ public class RoundedProgressBar extends JComponent {
         }
     }
 
-    private void drawShineEffect(Graphics2D g2, int progress, int height) {
-        float shineLoc = (float) (Math.sin(this.animationValue) * progress);
-        GradientPaint shineGradient = new GradientPaint(
+    private void drawShineEffect(final Graphics2D g2, final int progress, final int height) {
+        final float shineLoc = (float) (Math.sin(this.animationValue) * progress);
+        final GradientPaint shineGradient = new GradientPaint(
                 shineLoc - 10, 0,
                 new Color(255, 255, 255, 0),
                 shineLoc, 0,
@@ -113,7 +113,7 @@ public class RoundedProgressBar extends JComponent {
         g2.fill(new RoundRectangle2D.Float(0, 0, progress, height, height, height));
     }
 
-    public void setValue(int value) {
+    public void setValue(final int value) {
         this.targetValue = Math.min(Math.max(value, this.minimum), this.maximum);
         if (!this.progressTimer.isRunning()) {
             this.progressTimer.start();
@@ -122,40 +122,40 @@ public class RoundedProgressBar extends JComponent {
 
 
 
-    public void setMaximum(int maximum) {
+    public void setMaximum(final int maximum) {
         this.maximum = maximum;
         this.repaint();
     }
 
-    public void setMinimum(int minimum) {
+    public void setMinimum(final int minimum) {
         this.minimum = minimum;
         this.repaint();
     }
 
 
     @Override
-    public void setBackground(Color background) {
+    public void setBackground(final Color background) {
         this.background = background;
         this.repaint();
     }
 
     @Override
-    public void setForeground(Color foreground) {
+    public void setForeground(final Color foreground) {
         this.foreground = foreground;
         this.repaint();
     }
 
-    public void setBorderColor(Color borderColor) {
+    public void setBorderColor(final Color borderColor) {
         this.borderColor = borderColor;
         this.repaint();
     }
 
-    public void setShowGlowEffect(boolean showGlowEffect) {
+    public void setShowGlowEffect(final boolean showGlowEffect) {
         this.showGlowEffect = showGlowEffect;
         this.repaint();
     }
 
-    public void setShowAnimation(boolean showAnimation) {
+    public void setShowAnimation(final boolean showAnimation) {
         this.showAnimation = showAnimation;
         if (showAnimation) {
             this.animationTimer.start();

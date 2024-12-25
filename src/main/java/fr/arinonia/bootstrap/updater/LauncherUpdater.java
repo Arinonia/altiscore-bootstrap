@@ -1,6 +1,7 @@
 package fr.arinonia.bootstrap.updater;
 
 import com.google.gson.Gson;
+import fr.arinonia.bootstrap.logger.Logger;
 import fr.arinonia.bootstrap.updater.models.Dependency;
 import fr.arinonia.bootstrap.updater.models.LauncherManifest;
 import fr.arinonia.bootstrap.updater.utils.DownloadUtils;
@@ -41,7 +42,7 @@ public class LauncherUpdater {
                         this.manifest.getMainJar().getSha1(),
                         this.manifest.getMainJar().getSize())) {
 
-                    System.out.println("Downloading main JAR: " + this.manifest.getMainJar().getName());
+                    Logger.info("Downloading main JAR: " + this.manifest.getMainJar().getName());
                     DownloadUtils.downloadFile(
                             this.manifest.getMainJar().getUrl(),
                             mainJarPath,
@@ -60,7 +61,7 @@ public class LauncherUpdater {
                         final String depUrl = getDependencyUrl(dep);
 
                         if (!DownloadUtils.verifyFile(depPath, dep.getSha1(), dep.getSize())) {
-                            System.out.println("Downloading dependency: " + (dep.getName() != null ? dep.getName() : dep.getArtifactId()));
+                            Logger.info("Downloading dependency: " + (dep.getName() != null ? dep.getName() : dep.getArtifactId()));
                             DownloadUtils.downloadFile(
                                     depUrl,
                                     depPath,

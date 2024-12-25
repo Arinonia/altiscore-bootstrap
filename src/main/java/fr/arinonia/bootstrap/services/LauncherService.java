@@ -24,9 +24,9 @@ public class LauncherService {
                 this.fileManager.getRootPath()
         );
 
-        return updater.update(progress ->
+        return this.updater.update(progress ->
                 SwingUtilities.invokeLater(() -> {
-                    int progressValue = (int) (progress * 100);
+                    final int progressValue = (int) (progress * 100);
                     progressCallback.onProgress(progressValue);
                 })
         );
@@ -37,7 +37,7 @@ public class LauncherService {
             throw new IllegalStateException("Launcher update must be performed before starting");
         }
 
-        LauncherStarter starter = new LauncherStarter(fileManager.getRuntimePath(), updater);
+        final LauncherStarter starter = new LauncherStarter(fileManager.getRuntimePath(), updater);
         starter.startLauncher();
     }
 

@@ -1,6 +1,7 @@
 package fr.arinonia.bootstrap.utils;
 
 import fr.arinonia.bootstrap.config.BootstrapConfig;
+import fr.arinonia.bootstrap.logger.Logger;
 
 import java.io.File;
 
@@ -65,20 +66,20 @@ public class RuntimeDetector {
     public static boolean isValidJavaInstallation(final File javaPath) {
         final JavaValidator.ValidationResult result = JavaValidator.validateJavaInstallation(javaPath.toPath());
         if (!result.isValid()) {
-            System.out.println("Installation Java invalide : " + result.getErrorMessage());
+            Logger.warning("Installation Java invalide : " + result.getErrorMessage());
             return false;
         }
 
         final String version = result.getVersion();
         if (version != null) {
             if (!version.startsWith("21.")) {//! change this to a config value
-                System.out.println("Version Java incompatible : " + version);
+                Logger.warning("Version Java incompatible : " + version);
                 return false;
             }
         }
 
         if (!result.hasJavaFX()) {
-            System.out.println("JavaFX non trouvé dans l'installation");
+            Logger.warning("JavaFX non trouvé dans l'installation");
             return false;
         }
 

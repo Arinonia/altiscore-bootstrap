@@ -1,6 +1,7 @@
 package fr.arinonia.bootstrap.services;
 
 import fr.arinonia.bootstrap.file.FileManager;
+import fr.arinonia.bootstrap.logger.Logger;
 import fr.arinonia.bootstrap.utils.RuntimeDetector;
 import fr.arinonia.bootstrap.utils.RuntimeDownloader;
 import fr.flowarg.azuljavadownloader.Callback;
@@ -21,11 +22,11 @@ public class RuntimeService {
     public boolean needsRuntimeDownload() {
         if (!RuntimeDetector.isValidJavaInstallation(this.fileManager.getRuntimePath().toFile())) {
             if (!this.runtimeInfo.hasValidJava()) {
-                System.out.printf("Invalid Java version detected: %s%n", this.runtimeInfo.getCurrentJavaVersion());
+                Logger.warning(String.format("Invalid Java version detected: %s", this.runtimeInfo.getCurrentJavaVersion()));
                 return true;
             }
             if (!this.runtimeInfo.hasJavaFX()) {
-                System.out.println("JavaFX not found in runtime");
+                Logger.warning("JavaFX not found in runtime");
                 return true;
             }
         }
