@@ -21,7 +21,7 @@ public class Logger {
             final Path logsDir = fileManager.getRootPath().resolve("logs");
             Files.createDirectories(logsDir);
 
-            final  String fileName = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date()) + ".log";
+            final String fileName = "bootstrap_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date()) + ".log";
             logFile = logsDir.resolve(fileName);
 
             logger = java.util.logging.Logger.getLogger("AltisCore");
